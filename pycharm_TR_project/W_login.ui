@@ -80,7 +80,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Nombre:</string>
+       <string>Nom i cognoms:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>

@@ -8,3 +8,4 @@ class LogIn(QWidget):
 
         loadUi("W_login.ui", self)
         self.regButton = self.findChild(QPushButton, "regButton")
+        self.enterButton = self.findChild(QPushButton, "enterButton")

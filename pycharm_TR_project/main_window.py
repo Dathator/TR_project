@@ -1,6 +1,7 @@
 from imports import *
 from W_login import LogIn
 from W_registration import Registration
+from W_menu import Menu
 
 
 class MainWindow(QMainWindow):
@@ -9,13 +10,21 @@ class MainWindow(QMainWindow):
         self.show()
 
     def show_w_login(self):
-        W_login = LogIn()
-        W_login.regButton.clicked.connect(self.show_w_reg)
-        W_login.regButton.clicked.connect(W_login.close)
-        self.setCentralWidget(W_login)
+        w_login = LogIn()
+        w_login.regButton.clicked.connect(self.show_w_reg)
+        w_login.regButton.clicked.connect(w_login.close)
+        w_login.enterButton.clicked.connect(self.show_w_menu)
+        w_login.enterButton.clicked.connect(w_login.close)
+        self.setCentralWidget(w_login)
 
     def show_w_reg(self):
-        W_reg = Registration()
-        W_reg.backButton.clicked.connect(self.show_w_login)
-        W_reg.backButton.clicked.connect(W_reg.close)
-        self.setCentralWidget(W_reg)
+        w_reg = Registration()
+        w_reg.backButton.clicked.connect(self.show_w_login)
+        w_reg.backButton.clicked.connect(w_reg.close)
+        self.setCentralWidget(w_reg)
+
+    def show_w_menu(self):
+        w_menu = Menu()
+        w_menu.acchangeButton.clicked.connect(self.show_w_login)
+        w_menu.acchangeButton.clicked.connect(w_menu.close)
+        self.setCentralWidget(w_menu)
