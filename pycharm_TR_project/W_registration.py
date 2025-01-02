@@ -1,4 +1,5 @@
 from imports import *
+from database import get_current_user_by_name
 
 
 class Registration(QWidget):
@@ -16,8 +17,14 @@ class Registration(QWidget):
     def check_data(self, name, password, rep_password):
         if (name != "") and (password != "") and (rep_password != ""):
             if password == rep_password:
-                self.statusLabel.setText("Tot està bé.")
-                return True
+                try:
+                    get_current_user_by_name(name)
+                except:
+                    self.statusLabel.setText("Tot està bé.")
+                    return True
+                else:
+                    self.statusLabel.setText("L'usuari ja existeix.")
+                    return False
             else:
                 self.statusLabel.setText("La contrasenya s'ha repetit incorrectament.")
                 return False

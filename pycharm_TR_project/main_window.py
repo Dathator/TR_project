@@ -2,15 +2,18 @@ from imports import *
 from W_login import LogIn
 from W_registration import Registration
 from W_menu import Menu
-from database import insert_user, get_user
+from database import insert_user, get_current_user_by_name_password
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
+        self.current_user = None
         self.show()
 
     def show_w_login(self):
+        if self.current_user:
+            self.current_user = None
         w_login = LogIn()
         w_login.regButton.clicked.connect(self.show_w_reg)
         w_login.regButton.clicked.connect(w_login.close)
@@ -20,14 +23,19 @@ class MainWindow(QMainWindow):
 
     def enterBut_clicked(self, W_login):
         try:
-            get_user(W_login.nameLineEdit.text(), W_login.passwordLineEdit.text())
+            get_current_user_by_name_password(W_login.nameLineEdit.text(),
+                                              W_login.passwordLineEdit.text())
         except:
             W_login.statusLabel.setText("El nom d'usuari o la contrasenya són incorrectes.")
         else:
+            self.current_user = get_current_user_by_name_password(W_login.nameLineEdit.text(),
+                                                                  W_login.passwordLineEdit.text())
             self.show_w_menu()
             W_login.close()
 
     def show_w_reg(self):
+        if self.current_user:
+            self.current_user = None
         w_reg = Registration()
         w_reg.backButton.clicked.connect(self.show_w_login)
         w_reg.backButton.clicked.connect(w_reg.close)
