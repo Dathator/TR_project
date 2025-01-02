@@ -5,12 +5,13 @@ def insert_user(name, password):
     data = (name, password)
     connection = connect("TR_users.db")
     cursor = connection.cursor()
-    cursor.execute("""INSERT INTO users (name&surname, password, usertype) VALUES (?, ?, ?)""", data)
+    cursor.execute("""INSERT INTO users(nameSurname,password) VALUES(?,?)""", data)
     connection.commit()
 
-def get_user(id):
+def get_user(name, password):
+    data = (name, password)
     connection = connect("TR_users.db")
     cursor = connection.cursor()
-    user = cursor.execute("""""", id)
-    user.fetchall()
-    return user
+    cursor.execute("""SELECT * FROM users WHERE nameSurname=? AND password=?""", data)
+    user = cursor.fetchone()
+    return user[0]
