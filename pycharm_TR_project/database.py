@@ -25,3 +25,9 @@ def get_current_user_by_name(name):
     user = cursor.fetchone()
     user = (user[0], user[1], user[2], user[3])
     return user
+
+def change_user_data(field_to_change, new_data):
+    data = (field_to_change, field_to_change, new_data, new_data)
+    connection = connect("TR_users.db")
+    cursor = connection.cursor()
+    cursor.execute("""REPLACE INTO users(?, ?) VALUES (?, ?)""", data)
