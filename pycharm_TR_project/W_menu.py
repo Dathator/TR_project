@@ -29,3 +29,4 @@ class AdminMenu(QWidget):
         self.nameLabel = self.findChild(QLabel, "nameLabel")
         self.acchangeButton = self.findChild(QPushButton, "acchangeButton")
         self.prefButton = self.findChild(QPushButton, "prefButton")
+        self.admpanelButton = self.findChild(QPushButton, "admpanelButton")

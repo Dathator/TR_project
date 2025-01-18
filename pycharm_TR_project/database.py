@@ -8,6 +8,13 @@ def insert_user(name, password):
     cursor.execute("""INSERT INTO users(nameSurname,password) VALUES(?,?)""", data)
     connection.commit()
 
+def get_all_users():
+    connection = connect("TR_users.db")
+    cursor = connection.cursor()
+    cursor.execute("""SELECT * FROM users""")
+    users = cursor.fetchall()
+    return users
+
 def get_current_user_by_name_password(name, password):
     data = (name, password)
     connection = connect("TR_users.db")
