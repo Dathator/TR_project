@@ -3,7 +3,7 @@ from W_login import LogIn
 from W_registration import Registration
 from W_menu import StudentMenu, TeacherMenu, AdminMenu
 from W_account_pref import AccountPref
-from database import insert_user, get_current_user_by_name_password
+from database import insert_user, get_current_user_by_name, get_current_user_by_name_password
 
 
 class MainWindow(QMainWindow):
@@ -83,5 +83,9 @@ class MainWindow(QMainWindow):
         w_account_pref.acchangeButton.clicked.connect(w_account_pref.close)
         w_account_pref.backtomenuButton.clicked.connect(self.show_w_menu)
         w_account_pref.backtomenuButton.clicked.connect(w_account_pref.close)
+        w_account_pref.changenameButton.clicked.connect(lambda: self.change_current_user(w_account_pref.nameLabel.text()))
         self.setCentralWidget(w_account_pref)
         self.setFixedSize(500, 600)
+
+    def change_current_user(self, new_name):
+        self.current_user = (self.current_user[0], new_name, self.current_user[2], self.current_user[3])

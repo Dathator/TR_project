@@ -26,8 +26,16 @@ def get_current_user_by_name(name):
     user = (user[0], user[1], user[2], user[3])
     return user
 
-def change_user_data(field_to_change, new_data):
-    data = (field_to_change, field_to_change, new_data, new_data)
+def change_user_name(new_data, user_name):
+    data = (new_data, user_name)
     connection = connect("TR_users.db")
     cursor = connection.cursor()
-    cursor.execute("""REPLACE INTO users(?, ?) VALUES (?, ?)""", data)
+    cursor.execute("""UPDATE users SET nameSurname = ? WHERE nameSurname = ?""", data)
+    connection.commit()
+
+def change_user_password(new_data, user_name):
+    data = (new_data, user_name)
+    connection = connect("TR_users.db")
+    cursor = connection.cursor()
+    cursor.execute("""UPDATE users SET password = ? WHERE nameSurname = ?""", data)
+    connection.commit()
