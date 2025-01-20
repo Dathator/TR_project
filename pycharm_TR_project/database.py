@@ -46,3 +46,10 @@ def change_user_password(new_data, user_name):
     cursor = connection.cursor()
     cursor.execute("""UPDATE users SET password = ? WHERE nameSurname = ?""", data)
     connection.commit()
+
+def change_user_status(new_data, user_name):
+    data = (new_data, user_name)
+    connection = connect("TR_users.db")
+    cursor = connection.cursor()
+    cursor.execute("""UPDATE users SET userType = ? WHERE nameSurname = ?""", data)
+    connection.commit()

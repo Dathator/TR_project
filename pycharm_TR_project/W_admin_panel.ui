@@ -133,6 +133,19 @@
     <string>Tornar al menú</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="saveButton">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>450</y>
+     <width>161</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Actualitzar dades</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
