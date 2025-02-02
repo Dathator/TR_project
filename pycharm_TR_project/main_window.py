@@ -55,21 +55,21 @@ class MainWindow(QMainWindow):
         w_menu = None
         if self.current_user[3] == 1:
             w_menu = StudentMenu()
-            w_menu.nameLabel.setText(self.current_user[1])
+            w_menu.nameLabel.setText(str(self.current_user[1]))
             w_menu.acchangeButton.clicked.connect(self.show_w_login)
             w_menu.acchangeButton.clicked.connect(w_menu.close)
             w_menu.prefButton.clicked.connect(self.show_w_account_pref)
             w_menu.prefButton.clicked.connect(w_menu.close)
         elif self.current_user[3] == 2:
             w_menu = TeacherMenu()
-            w_menu.nameLabel.setText(self.current_user[1])
+            w_menu.nameLabel.setText(str(self.current_user[1]))
             w_menu.acchangeButton.clicked.connect(self.show_w_login)
             w_menu.acchangeButton.clicked.connect(w_menu.close)
             w_menu.prefButton.clicked.connect(self.show_w_account_pref)
             w_menu.prefButton.clicked.connect(w_menu.close)
         elif self.current_user[3] == 3:
             w_menu = AdminMenu()
-            w_menu.nameLabel.setText(self.current_user[1])
+            w_menu.nameLabel.setText(str(self.current_user[1]))
             w_menu.acchangeButton.clicked.connect(self.show_w_login)
             w_menu.acchangeButton.clicked.connect(w_menu.close)
             w_menu.prefButton.clicked.connect(self.show_w_account_pref)
@@ -81,7 +81,7 @@ class MainWindow(QMainWindow):
 
     def show_w_account_pref(self):
         w_account_pref = AccountPref()
-        w_account_pref.nameLabel.setText(self.current_user[1])
+        w_account_pref.nameLabel.setText(str(self.current_user[1]))
         w_account_pref.acchangeButton.clicked.connect(self.show_w_login)
         w_account_pref.acchangeButton.clicked.connect(w_account_pref.close)
         w_account_pref.backtomenuButton.clicked.connect(self.show_w_menu)
@@ -95,7 +95,9 @@ class MainWindow(QMainWindow):
 
     def show_w_adm_panel(self):
         w_adm_panel = AdmPanel()
+        w_adm_panel.userLabel.setText(self.current_user[1])
         w_adm_panel.backButton.clicked.connect(self.show_w_menu)
         w_adm_panel.backButton.clicked.connect(w_adm_panel.close)
+        w_adm_panel.saveButton.clicked.connect(lambda: self.change_current_user(w_adm_panel.userLabel.text()))
         self.setCentralWidget(w_adm_panel)
         self.setFixedSize(700, 500)

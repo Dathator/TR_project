@@ -40,7 +40,7 @@ class AccountPref(QWidget):
             except:
                 self.nstatusLabel.setText("Tot està bé.")
                 change_user_name(new_name, self.nameLabel.text())
-                self.nameLabel.setText(new_name)
+                self.nameLabel.setText(str(new_name))
             else:
                 self.nstatusLabel.setText("L'usuari ja existeix.")
 

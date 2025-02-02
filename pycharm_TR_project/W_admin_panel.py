@@ -1,5 +1,5 @@
 from imports import *
-from database import get_all_users, change_user_name, change_user_password, change_user_status
+from database import get_all_users, get_current_user_by_name, change_user_name, change_user_password, change_user_status
 
 
 class QComboBoxForAdmPAnel(QComboBox):
@@ -26,10 +26,15 @@ class AdmPanel(QWidget):
         self.backButton = self.findChild(QPushButton, "backButton")
         self.saveButton = self.findChild(QPushButton, "saveButton")
         self.saveButton.clicked.connect(self.update_data)
+        self.userLabel = self.findChild(QLabel, "userLabel")
+        self.statusLabel = self.findChild(QLabel, "statusLabel")
 
         self.users = get_all_users()
+        self.names = []
+        for name in self.users:
+            self.names.append(str(name[1]))
+        self.names_copy = self.names.copy()
         self.usersTable = self.findChild(QTableWidget, "usersTable")
-        self.usersTable_Data = []
         self.usersTable.setRowCount(len(self.users))
         self.usersTable.setColumnCount(4)
         self.usersTable.setHorizontalHeaderLabels(["ID", "Name", "Password", "Status"])
@@ -40,35 +45,42 @@ class AdmPanel(QWidget):
             self.usersTable.setItem(i, 1, QTableWidgetItem(str(self.users[i][1])))
             self.usersTable.setItem(i, 2, QTableWidgetItem(str(self.users[i][2])))
             comboBox = QComboBoxForAdmPAnel()
-            comboBox.addItems(["Alumne", "Professor", "Admin"])
+            comboBox.addItems(["Alumne", "Professor"])
             if self.users[i][3] == 1:
                 comboBox.setCurrentIndex(0)
             elif self.users[i][3] == 2:
                 comboBox.setCurrentIndex(1)
             elif self.users[i][3] == 3:
+                comboBox.addItem("Admin")
                 comboBox.setCurrentIndex(2)
+                comboBox.setEnabled(False)
             self.usersTable.setCellWidget(i, 3, comboBox)
             comboBox.activated.connect(lambda: self.status_change_comboBox(comboBox))
-            self.usersTable_Data.append([IdItem,
-                                         str(self.users[i][1]),
-                                         str(self.users[i][2]),
-                                         self.users[i][3]])
 
     def status_change_comboBox(self, comboBox):
-        
+        pass
 
     def update_data(self):
         for i in range(0, len(self.users)):
-            for j in range(0, 4):
-                print(self.usersTable.item(i, j))
-        #for i in range(0, len(self.users)):
-        #    change_user_password(self.usersTable.item(i, 2).text(), self.users[i][1])
-        #    new_status = self.usersTable.item(i, 3).text()
-        #    if new_status == "Alumne":
-        #        new_status = 1
-        #    elif new_status == "Professor":
-        #        new_status = 2
-        #    elif new_status == "Admin":
-        #        new_status = 3
-        #    change_user_status(3, self.users[i][1])
-        #    change_user_name(self.usersTable.item(i, 1).text(), self.users[i][1])
+            if self.usersTable.item(i, 1).text() != '' and self.usersTable.item(i, 2).text() != '':
+                if str(self.users[i][2]) != self.usersTable.item(i, 2).text():
+                    change_user_password(self.usersTable.item(i, 2).text(), self.users[i][1])
+                    self.statusLabel.setText("Tot està bé.")
+                new_status = self.usersTable.cellWidget(i, 3).currentIndex()
+                new_status += 1
+                if self.users[i][3] != new_status:
+                    change_user_status(new_status, self.users[i][1])
+                    self.statusLabel.setText("Tot està bé.")
+                if str(self.users[i][1]) != self.usersTable.item(i, 1).text():
+                    self.names_copy[i] = self.usersTable.item(i, 1).text()
+                    if self.names_copy.count(self.usersTable.item(i, 1).text()) > 1:
+                        self.names_copy = self.names.copy()
+                        self.statusLabel.setText("Es repeteix un dels noms.")
+                    else:
+                        self.names = self.names_copy.copy()
+                        self.userLabel.setText(self.usersTable.item(i, 1).text())
+                        change_user_name(self.usersTable.item(i, 1).text(), str(self.users[i][1]))
+                        self.statusLabel.setText("Tot està bé.")
+            else:
+                self.statusLabel.setText("Un dels camps no està emplenat.")
+                break
