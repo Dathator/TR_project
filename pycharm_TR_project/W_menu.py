@@ -19,7 +19,6 @@ class TeacherMenu(QWidget):
         self.nameLabel = self.findChild(QLabel, "nameLabel")
         self.acchangeButton = self.findChild(QPushButton, "acchangeButton")
         self.prefButton = self.findChild(QPushButton, "prefButton")
-        self.classesButton = self.findChild(QPushButton, "classesButton")
 
 
 class AdminMenu(QWidget):

@@ -4,7 +4,6 @@ from W_registration import Registration
 from W_menu import StudentMenu, TeacherMenu, AdminMenu
 from W_account_pref import AccountPref
 from W_admin_panel import AdmPanel
-from W_class_list_panel import ClassListPanel
 from database import insert_user, get_current_user_by_name_password
 
 
@@ -68,8 +67,6 @@ class MainWindow(QMainWindow):
             w_menu.acchangeButton.clicked.connect(w_menu.close)
             w_menu.prefButton.clicked.connect(self.show_w_account_pref)
             w_menu.prefButton.clicked.connect(w_menu.close)
-            w_menu.classesButton.clicked.connect(self.show_w_class_list_panel)
-            w_menu.classesButton.clicked.connect(w_menu.close)
         elif self.current_user[3] == 3:
             w_menu = AdminMenu()
             w_menu.nameLabel.setText(str(self.current_user[1]))
@@ -98,17 +95,9 @@ class MainWindow(QMainWindow):
 
     def show_w_adm_panel(self):
         w_adm_panel = AdmPanel()
-        w_adm_panel.userLabel.setText(str(self.current_user[1]))
+        w_adm_panel.userLabel.setText(self.current_user[1])
         w_adm_panel.backButton.clicked.connect(self.show_w_menu)
         w_adm_panel.backButton.clicked.connect(w_adm_panel.close)
         w_adm_panel.saveButton.clicked.connect(lambda: self.change_current_user(w_adm_panel.userLabel.text()))
         self.setCentralWidget(w_adm_panel)
         self.setFixedSize(700, 500)
-
-    def show_w_class_list_panel(self):
-        w_class_list_panel = ClassListPanel()
-        w_class_list_panel.userLabel.setText(str(self.current_user[1]))
-        w_class_list_panel.backButton.clicked.connect(self.show_w_menu)
-        w_class_list_panel.backButton.clicked.connect(w_class_list_panel.close)
-        self.setCentralWidget(w_class_list_panel)
-        self.setFixedSize(690, 446)
