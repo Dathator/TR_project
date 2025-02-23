@@ -30,14 +30,12 @@ class AdmPanel(QWidget):
         self.statusLabel = self.findChild(QLabel, "statusLabel")
 
         self.users = get_all_users()
-        self.names = []
-        for name in self.users:
-            self.names.append(str(name[1]))
-        self.names_copy = self.names.copy()
         self.usersTable = self.findChild(QTableWidget, "usersTable")
         self.usersTable.setRowCount(len(self.users))
         self.usersTable.setColumnCount(4)
-        self.usersTable.setHorizontalHeaderLabels(["ID", "Name", "Password", "Status"])
+        self.usersTable.setHorizontalHeaderLabels(["ID", "Nom", "Contrasenya", "Status"])
+        header = self.usersTable.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeToContents)
         for i in range(0, len(self.users)):
             IdItem = QTableWidgetItem(str(self.users[i][0]))
             IdItem.setFlags(IdItem.flags() ^ Qt.ItemIsEditable)
@@ -55,32 +53,36 @@ class AdmPanel(QWidget):
                 comboBox.setCurrentIndex(2)
                 comboBox.setEnabled(False)
             self.usersTable.setCellWidget(i, 3, comboBox)
-            comboBox.activated.connect(lambda: self.status_change_comboBox(comboBox))
-
-    def status_change_comboBox(self, comboBox):
-        pass
 
     def update_data(self):
+        new_names = []
+        new_passwords = []
+        cur_user_id = str(get_current_user_by_name(self.userLabel.text())[0])
         for i in range(0, len(self.users)):
-            if self.usersTable.item(i, 1).text() != '' and self.usersTable.item(i, 2).text() != '':
-                if str(self.users[i][2]) != self.usersTable.item(i, 2).text():
-                    change_user_password(self.usersTable.item(i, 2).text(), self.users[i][1])
-                    self.statusLabel.setText("Tot està bé.")
-                new_status = self.usersTable.cellWidget(i, 3).currentIndex()
-                new_status += 1
-                if self.users[i][3] != new_status:
-                    change_user_status(new_status, self.users[i][1])
-                    self.statusLabel.setText("Tot està bé.")
-                if str(self.users[i][1]) != self.usersTable.item(i, 1).text():
-                    self.names_copy[i] = self.usersTable.item(i, 1).text()
-                    if self.names_copy.count(self.usersTable.item(i, 1).text()) > 1:
-                        self.names_copy = self.names.copy()
-                        self.statusLabel.setText("Es repeteix un dels noms.")
-                    else:
-                        self.names = self.names_copy.copy()
-                        self.userLabel.setText(self.usersTable.item(i, 1).text())
-                        change_user_name(self.usersTable.item(i, 1).text(), str(self.users[i][1]))
-                        self.statusLabel.setText("Tot està bé.")
-            else:
+            new_names.append(self.usersTable.item(i, 1).text())
+            change_user_name(i, str(self.users[i][1]))
+            new_passwords.append(self.usersTable.item(i, 2).text())
+        for i in range(0, len(new_names)):
+            if new_names[i] == '':
                 self.statusLabel.setText("Un dels camps no està emplenat.")
                 break
+            elif new_names.count(new_names[i]) > 1:
+                self.statusLabel.setText("Es repeteix un dels noms.")
+                break
+            else:
+                self.statusLabel.setText("Tot està bé.")
+                change_user_name(self.usersTable.item(i, 1).text(), i)
+                if cur_user_id == self.usersTable.item(i, 0).text():
+                    self.userLabel.setText(self.usersTable.item(i, 1).text())
+            if new_passwords[i] == '':
+                self.statusLabel.setText("Un dels camps no està emplenat.")
+                break
+            else:
+                self.statusLabel.setText("Tot està bé.")
+                change_user_password(self.usersTable.item(i, 2).text(), self.users[i][1])
+            new_status = self.usersTable.cellWidget(i, 3).currentIndex()
+            new_status += 1
+            if self.users[i][3] != new_status:
+                change_user_status(new_status, self.users[i][1])
+                self.statusLabel.setText("Tot està bé.")
+            self.users = get_all_users()

@@ -20,8 +20,21 @@ class Registration(QWidget):
                 try:
                     get_current_user_by_name(name)
                 except:
-                    self.statusLabel.setText("Tot està bé.")
-                    return True
+                    name_check = name.split()
+                    count = 0
+                    for i in name_check:
+                        try:
+                            i = int(i)
+                        except:
+                            pass
+                        else:
+                            count += 1
+                    if count != len(name_check):
+                        self.statusLabel.setText("Tot està bé.")
+                        return True
+                    else:
+                        self.statusLabel.setText("Un nom no pot consistir només en números.")
+                        return False
                 else:
                     self.statusLabel.setText("L'usuari ja existeix.")
                     return False

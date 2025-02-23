@@ -9,6 +9,7 @@ class StudentMenu(QWidget):
         self.nameLabel = self.findChild(QLabel, "nameLabel")
         self.acchangeButton = self.findChild(QPushButton, "acchangeButton")
         self.prefButton = self.findChild(QPushButton, "prefButton")
+        self.signaturesButton = self.findChild(QPushButton, "signaturesButton")
 
 
 class TeacherMenu(QWidget):
@@ -19,6 +20,7 @@ class TeacherMenu(QWidget):
         self.nameLabel = self.findChild(QLabel, "nameLabel")
         self.acchangeButton = self.findChild(QPushButton, "acchangeButton")
         self.prefButton = self.findChild(QPushButton, "prefButton")
+        self.classesButton = self.findChild(QPushButton, "classesButton")
 
 
 class AdminMenu(QWidget):
@@ -29,4 +31,5 @@ class AdminMenu(QWidget):
         self.nameLabel = self.findChild(QLabel, "nameLabel")
         self.acchangeButton = self.findChild(QPushButton, "acchangeButton")
         self.prefButton = self.findChild(QPushButton, "prefButton")
+        self.everyclassButton = self.findChild(QPushButton, "everyclassButton")
         self.admpanelButton = self.findChild(QPushButton, "admpanelButton")
