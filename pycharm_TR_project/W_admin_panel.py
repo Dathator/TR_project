@@ -82,7 +82,7 @@ class AdmPanel(QWidget):
                 change_user_password(self.usersTable.item(i, 2).text(), self.users[i][1])
             new_status = self.usersTable.cellWidget(i, 3).currentIndex()
             new_status += 1
-            if self.users[i][3] != new_status:
+            if str(self.users[i][3]) != str(new_status):
                 change_user_status(new_status, self.users[i][1])
                 self.statusLabel.setText("Tot està bé.")
             self.users = get_all_users()
