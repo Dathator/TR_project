@@ -185,6 +185,11 @@ class ClassNotes(QWidget):
         self.lines = get_lines_by_class_id(self.class_id)
         self.columns = get_columns_by_class_id(self.class_id)
         self.notesTable.setRowCount(self.cur_class[3])
+        self.notesTable.setColumnCount(self.cur_class[4] + 1)
+        for i in range(len(self.lines)):
+            ID = QTableWidgetItem(get_current_user_by_id(self.lines[i][2])[0])
+            self.notesTable.setItem(i, self.cur_class[4], ID)
+        self.notesTable.sortItems(self.cur_class[4] + 1)
         self.notesTable.setColumnCount(self.cur_class[4])
         header = self.notesTable.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
@@ -198,10 +203,10 @@ class ClassNotes(QWidget):
             for j in range(1, len(self.columns) + 1):
                 try:
                     self.notesTable.setItem(i, j, QTableWidgetItem(str(get_note(self.lines[i][0],
-                                                                                self.columns[j][0])[0][2])))
+                                                                                self.columns[j - 1][0])[0][2])))
                 except:
                     self.notesTable.setItem(i, j, QTableWidgetItem(str(0)))
-
+        self.notesTable.sortItems(0)
 
     def save_notes(self):
         flag = False

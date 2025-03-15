@@ -60,7 +60,6 @@ class AdmPanel(QWidget):
         cur_user_id = str(get_current_user_by_name(self.userLabel.text())[0])
         for i in range(0, len(self.users)):
             new_names.append(self.usersTable.item(i, 1).text())
-            change_user_name(i, str(self.users[i][1]))
             new_passwords.append(self.usersTable.item(i, 2).text())
         for i in range(0, len(new_names)):
             if new_names[i] == '':
@@ -71,7 +70,7 @@ class AdmPanel(QWidget):
                 break
             else:
                 self.statusLabel.setText("Tot està bé.")
-                change_user_name(self.usersTable.item(i, 1).text(), i)
+                change_user_name(self.usersTable.item(i, 1).text(), str(self.users[i][1]))
                 if cur_user_id == self.usersTable.item(i, 0).text():
                     self.userLabel.setText(self.usersTable.item(i, 1).text())
             if new_passwords[i] == '':
