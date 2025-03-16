@@ -99,9 +99,13 @@ def get_class_by_id(id):
 def get_classes_by_student_id(studentID):
     lines = get_lines_by_studentID(studentID)
     classes = []
+    print(lines)
     for i in lines:
         if i[1] not in classes:
-            classes.append(get_class_by_id(i[1]))
+            try:
+                classes.append(get_class_by_id(i[1]))
+            except:
+                pass
     return classes
 
 def insert_class(class_name, id):
